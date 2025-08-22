@@ -1,0 +1,16 @@
+[
+  {
+    "name": "Gardevoir-GX Klawf",
+    "slug": "gardevoir-gx-klawf",
+    "cards": ["gardevoir-gx-tslc-23.png", "klawf-tlsc-24.png"],
+    "wins": 0,
+    "notes": "Strong fighting deck with built-in draw engine."
+  },
+  {
+    "name": "Breloom",
+    "slug": "breloom",
+    "cards": ["breloom-tslc-12.png"],
+    "wins": 0,
+    "notes": "Aggressive deck focused on fast knockouts."
+  }
+]
