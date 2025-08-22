@@ -9,8 +9,8 @@
   {
     "name": "Breloom",
     "slug": "breloom",
-    "cards": ["breloom-tslc-12.png"],
+    "cards": ["breloom-tslc-12.png", "dusk-mane-necrozma-tslc-30"],
     "wins": 0,
-    "notes": "Aggressive deck focused on fast knockouts."
+    "notes": "Deck with many consistency tools for getting turn skips with Breloom."
   }
 ]
