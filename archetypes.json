@@ -9,7 +9,7 @@
   {
     "name": "Breloom",
     "slug": "breloom",
-    "cards": ["breloom-tslc-12.png", "dusk-mane-necrozma-tslc-30"],
+    "cards": ["breloom-tslc-12.png", "dusk-mane-necrozma-tslc-30.png"],
     "wins": 0,
     "notes": "Deck with many consistency tools for getting turn skips with Breloom."
   }
