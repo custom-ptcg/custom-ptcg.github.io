@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Archetypes - Custom PTCG</title>
+  <style>
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
+    img { width: 50px; height: auto; margin-right: 5px; }
+  </style>
+</head>
+<body>
+  <h1>Archetypes</h1>
+  <table>
+    <thead>
+      <tr>
+        <th>Archetype</th>
+        <th>Main Cards</th>
+        <th>Tournament Wins</th>
+        <th>Notes</th>
+      </tr>
+    </thead>
+    <tbody id="archetypes-table"></tbody>
+  </table>
+
+  <script>
+    fetch('archetypes.json')
+      .then(response => response.json())
+      .then(data => {
+        const table = document.getElementById('archetypes-table');
+        data.forEach(arch => {
+          const row = document.createElement('tr');
+
+          // Archetype link
+          const nameCell = document.createElement('td');
+          const link = document.createElement('a');
+          link.href = `archetypes/${arch.slug}.html`;
+          link.textContent = arch.name;
+          nameCell.appendChild(link);
+
+          // Main cards
+          const cardsCell = document.createElement('td');
+          arch.cards.forEach(card => {
+            const img = document.createElement('img');
+            img.src = `images/${card}`;
+            img.alt = card;
+            img.onclick = () => window.open(`images/${card}`, '_blank');
+            cardsCell.appendChild(img);
+          });
+
+          // Wins + notes
+          const winsCell = document.createElement('td');
+          winsCell.textContent = arch.wins;
+
+          const notesCell = document.createElement('td');
+          notesCell.textContent = arch.notes;
+
+          // Append
+          row.appendChild(nameCell);
+          row.appendChild(cardsCell);
+          row.appendChild(winsCell);
+          row.appendChild(notesCell);
+          table.appendChild(row);
+        });
+      });
+  </script>
+</body>
+</html>
