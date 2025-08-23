@@ -53,3 +53,13 @@ table th, table td {
 table th {
   background: #eee;
 }
+
+.card-details {
+  text-align: center;
+}
+
+.card-details img {
+  margin: 1rem auto;
+  display: block;
+}
+
