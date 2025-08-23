@@ -2,21 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Archetypes - Custom PTCG</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
-    <h1>Custom PTCG Archetypes</h1>
+    <h1>Custom PTCG</h1>
     <nav>
       <a href="index.html">Home</a>
       <a href="archetypes.html">Archetypes</a>
+      <a href="https://github.com/custom-ptcg/custom-ptcg.github.io">GitHub</a>
     </nav>
   </header>
 
   <main>
-    <h2>Archetype List</h2>
-    <table id="archetype-table">
+    <h2>Archetype Viewer</h2>
+    <table>
       <thead>
         <tr>
           <th>Archetype</th>
@@ -25,68 +27,33 @@
           <th>Notes</th>
         </tr>
       </thead>
-      <tbody></tbody>
+      <tbody id="archetype-table">
+        <!-- Data will be loaded from JSON here -->
+      </tbody>
     </table>
-
-    <h2>Optional Upload</h2>
-    <input type="file" id="csv-upload" accept=".csv">
   </main>
 
   <script>
-    async function loadArchetypes() {
-      const response = await fetch("archetypes.json");
-      const data = await response.json();
-      const tbody = document.querySelector("#archetype-table tbody");
+    fetch("archetypes.json")
+      .then(response => response.json())
+      .then(data => {
+        const table = document.getElementById("archetype-table");
+        data.forEach(arch => {
+          const row = document.createElement("tr");
 
-      data.forEach(arch => {
-        const row = document.createElement("tr");
+          row.innerHTML = `
+            <td><a href="archetypes/${arch.slug}.html">${arch.name}</a></td>
+            <td>${arch.main_cards.map(card => 
+              `<a href="${card.image}" target="_blank">
+                 <img src="${card.image}" alt="${card.name}" width="50">
+               </a>`).join(" ")}</td>
+            <td>${arch.wins}</td>
+            <td>${arch.notes}</td>
+          `;
 
-        // Archetype link
-        const nameCell = document.createElement("td");
-        nameCell.innerHTML = `<a href="archetypes/${arch.slug}.html">${arch.name}</a>`;
-        row.appendChild(nameCell);
-
-        // Main cards (thumbnails clickable)
-        const cardsCell = document.createElement("td");
-        arch.cards.forEach(card => {
-          const img = document.createElement("img");
-          img.src = card.image;
-          img.alt = card.name;
-          img.style.width = "40px";
-          img.style.marginRight = "5px";
-          img.onclick = () => window.open(card.image, "_blank");
-          cardsCell.appendChild(img);
+          table.appendChild(row);
         });
-        row.appendChild(cardsCell);
-
-        // Tournament wins
-        const winsCell = document.createElement("td");
-        winsCell.textContent = arch.wins;
-        row.appendChild(winsCell);
-
-        // Notes
-        const notesCell = document.createElement("td");
-        notesCell.textContent = arch.notes;
-        row.appendChild(notesCell);
-
-        tbody.appendChild(row);
       });
-    }
-
-    // Optional CSV upload
-    document.getElementById("csv-upload").addEventListener("change", function(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(ev) {
-        localStorage.setItem("uploadedCSV", ev.target.result);
-        alert("CSV stored locally! Refresh page to see changes.");
-      };
-      reader.readAsText(file);
-    });
-
-    loadArchetypes();
   </script>
 </body>
 </html>
-
