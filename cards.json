@@ -1,0 +1,30 @@
+[
+  {
+    "slug": "gardevoir-gx-tslc-23",
+    "name": "Gardevoir-GX",
+    "image": "images/gardevoir-gx-tslc-23.png",
+    "text": "",
+    "archetypes": ["gardevoir-gx-klawf"]
+  },
+  {
+    "slug": "klawf-tslc-24",
+    "name": "Klawf",
+    "image": "images/klawf-tslc-24.png",
+    "text": "",
+    "archetypes": ["gardevoir-gx-klawf"]
+  },
+  {
+    "slug": "breloom-tslc-12",
+    "name": "Breloom",
+    "image": "images/breloom-tslc-12.png",
+    "text": "",
+    "archetypes": ["breloom-necrozma"]
+  },
+  {
+    "slug": "dusk-mane-necrozma-tslc-30",
+    "name": "Dusk Mane Necrozma",
+    "image": "images/dusk-mane-necrozma-tslc-30.png",
+    "text": "",
+    "archetypes": ["breloom-necrozma"]
+  }
+]
