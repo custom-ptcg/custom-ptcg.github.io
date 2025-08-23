@@ -45,6 +45,7 @@
 
           row.innerHTML = `
             <td><a href="archetypes/${arch.slug}.html">${arch.name}</a></td>
+            <td>${arch.status}</td>
             <td>${arch.main_cards.map(card => 
               `<a href="${card.image}" target="_blank">
                  <img src="${card.image}" alt="${card.name}" width="50">
