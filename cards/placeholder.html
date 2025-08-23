@@ -1,17 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Card - Custom PTCG Format</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Custom PTCG</title>
   <link rel="stylesheet" href="../style.css">
   <style>
-    main img {
-      max-width: 200px;
-      margin-bottom: 1rem;
-    }
-    main p {
-      max-width: 700px;
+    /* Local styles for card page */
+    .wrap { max-width: 1000px; margin: 1.25rem auto; padding: 0 1rem; }
+    main.card-view { display: flex; gap: 2rem; align-items: flex-start; }
+    /* left column (text and archetypes) */
+    .card-info { flex: 1 1 420px; min-width: 260px; }
+    .card-info h2 { margin-top: 0; margin-bottom: .5rem; }
+    .card-text { background: #fff; padding: 1rem; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,.06); }
+    .card-text p { margin: .5rem 0; line-height: 1.45; }
+    .archetype-list { margin-top: .75rem; list-style: none; padding: 0; }
+    .archetype-list li { margin: .35rem 0; }
+    .archetype-pill { display:inline-block; padding:.25rem .5rem; border-radius:999px; background:#eef6ff; color:#0b76d1; text-decoration:none; font-weight:600; }
+
+    /* right column (image) */
+    .card-image { flex: 0 0 360px; text-align:center; }
+    .card-image img { max-width: 100%; height: auto; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,.12); cursor: zoom-in; }
+    .card-actions { margin-top:.5rem; display:flex;gap:.5rem; justify-content:center; }
+
+    /* modal / lightbox */
+    .modal { position: fixed; inset:0; display:none; align-items:center; justify-content:center; background: rgba(0,0,0,.65); z-index:1000; padding:1rem; }
+    .modal.open { display:flex; }
+    .modal .inner { max-width: 1100px; max-height: 90vh; overflow:auto; background: #fff; border-radius: 8px; padding: .75rem; }
+    .modal img { display:block; max-width:100%; height:auto; margin: 0 auto; }
+
+    /* responsive */
+    @media (max-width: 880px) {
+      main.card-view { flex-direction: column-reverse; }
+      .card-image { width:100%; }
     }
   </style>
 </head>
@@ -20,48 +41,114 @@
     <div class="wrap">
       <h1>Custom PTCG Format</h1>
       <nav>
-        <a href="index.html">Home</a>
-        <a href="archetypes.html">Archetypes</a>
-        <a href="https://github.com/custom-ptcg/custom-ptcg.github.io">GitHub</a>
-        <a href="about.html">About</a>
+        <a href="../index.html">Home</a>
+        <a href="../archetypes.html">Archetypes</a>
       </nav>
     </div>
   </header>
 
-  <main class="wrap">
-    <div id="card-details">
-      <!-- Card info will load here -->
+  <main class="wrap card-view">
+    <div class="card-info">
+      <div id="card-details" class="card-text">
+        <!-- filled by JS -->
+        <p>Loading card…</p>
+      </div>
     </div>
+
+    <aside class="card-image">
+      <div id="imgWrap">
+        <!-- image filled by JS -->
+      </div>
+      <div class="card-actions">
+        <button id="openLargeBtn">View full size</button>
+        <a id="imageLink" href="#" target="_blank" rel="noopener" style="align-self:center;text-decoration:none;">Open image</a>
+      </div>
+    </aside>
   </main>
 
-  <footer class="wrap">
-    <p><a href="../index.html">Back to Home</a></p>
+  <!-- modal -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="inner">
+      <button id="closeModal" style="float:right">Close</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <footer style="max-width:1000px;margin:2rem auto;padding:0 1rem;color:#666;">
+    <div class="wrap"><a href="../index.html">← Back</a></div>
   </footer>
 
   <script>
-    // CHANGE THIS for each card
-    const cardSlug = "placeholder"; // e.g., "klawf-tslc-24"
+    // ======= EDIT THIS LINE for each card page copy =========
+    const cardSlug = "placeholder"; // example: "klawf-tslc-24"
+    // =======================================================
 
-    fetch("../cards.json")
-      .then(res => res.json())
-      .then(cards => {
-        const card = cards.find(c => c.slug === cardSlug);
-        const container = document.getElementById("card-details");
-        if (!card) {
-          container.innerHTML = "<p>Card not found.</p>";
-          return;
-        }
+    // Helper: turn slug -> readable title if archetype name missing
+    function prettyName(slug){
+      if(!slug) return "";
+      return slug.replace(/[-_]+/g,' ').replace(/\b\w/g, c => c.toUpperCase());
+    }
 
-        container.innerHTML = `
-          <h2>${card.name}</h2>
-          <img src="../${card.image}" alt="${card.name}">
-          <p><strong>Card Text:</strong> ${card.text}</p>
-          <h3>Archetypes</h3>
-          <ul>
-            ${card.archetypes.map(a => `<li><a href="../archetypes.html#${a}">${a}</a></li>`).join("")}
-          </ul>
-        `;
-      });
+    // Fetch card + archetype data
+    Promise.all([
+      fetch('../cards.json').then(r => r.ok ? r.json() : Promise.reject('cards.json not found')),
+      fetch('../archetypes.json').then(r => r.ok ? r.json() : [])
+    ])
+    .then(([cards, archetypes]) => {
+      const card = cards.find(c => c.slug === cardSlug);
+      const container = document.getElementById('card-details');
+      const imgWrap = document.getElementById('imgWrap');
+      const imageLink = document.getElementById('imageLink');
+      const modal = document.getElementById('modal');
+      const modalContent = document.getElementById('modalContent');
+      const openLargeBtn = document.getElementById('openLargeBtn');
+      const closeModal = document.getElementById('closeModal');
+
+      if(!card){
+        container.innerHTML = `<p>Card "${cardSlug}" not found in cards.json.</p>
+          <p>Check that <code>cards.json</code> contains an object with <code>"slug":"${cardSlug}"</code>.</p>`;
+        imgWrap.innerHTML = '';
+        return;
+      }
+
+      // Left: info HTML
+      const archetypeListHtml = (card.archetypes || []).map(slug => {
+        // try to find matching archetype object to get display name
+        const archObj = archetypes.find(a => a.slug === slug);
+        const name = archObj ? archObj.name : prettyName(slug);
+        const href = `../archetypes.html#${slug}`;
+        return `<li><a class="archetype-pill" href="${href}">${name}</a></li>`;
+      }).join('');
+
+      container.innerHTML = `
+        <h2>${card.name}</h2>
+        <p><strong>Card Text:</strong></p>
+        <p>${card.text || '<em>No card text provided.</em>'}</p>
+        <h3>Archetypes</h3>
+        <ul class="archetype-list">${ archetypeListHtml || '<li><em>None</em></li>' }</ul>
+      `;
+
+      // Right: image
+      const imgPath = card.image.startsWith('../') || card.image.startsWith('/') ? card.image : ('../' + card.image.replace(/^\.{1,2}\//,''));
+      imgWrap.innerHTML = `<img id="cardImage" src="${imgPath}" alt="${card.name}">`;
+      imageLink.href = imgPath;
+
+      // modal: open full image
+      function openModal(){
+        modalContent.innerHTML = `<img src="${imgPath}" alt="${card.name}">`;
+        modal.classList.add('open'); modal.setAttribute('aria-hidden','false');
+      }
+      openLargeBtn.addEventListener('click', openModal);
+      document.getElementById('cardImage').addEventListener('click', openModal);
+      closeModal.addEventListener('click', ()=>{ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); modalContent.innerHTML=''; });
+      modal.addEventListener('click', (e)=>{ if(e.target === modal) { modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); modalContent.innerHTML=''; } });
+
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById('card-details').innerHTML = `<p>Error loading data: ${err}</p>`;
+      document.getElementById('imgWrap').innerHTML = '';
+    });
   </script>
 </body>
 </html>
