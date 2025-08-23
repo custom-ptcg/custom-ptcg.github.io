@@ -6,7 +6,7 @@
       { "name": "Gardevoir-GX", "image": "images/gardevoir-gx-tslc-23.png" },
       { "name": "Klawf", "image": "images/klawf-tslc-24.png" }
     ],
-    "wins": 3,
+    "wins": 0,
     "notes": "Deck based on Gardevoir-GX's ability to draw cards and put damage counters to power up klawf's attack. Includes Swalot for disabling opponent's key deck parts."
   },
   {
@@ -16,7 +16,7 @@
       { "name": "Breloom", "image": "images/breloom-tslc-12.png" },
       { "name": "Dusk Mane Necrozma", "image": "images/dusk-mane-necrozma-tslc-30.png" }
     ],
-    "wins": 2,
+    "wins": 0,
     "notes": "Deck with multiple consistency trainer cards and a large variety of grass pokémon to attack in various ways."
   }
 ]
