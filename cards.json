@@ -1,5 +1,12 @@
 [
   {
+    "slug": "placeholder",
+    "name": "Card Template / Placeholder",
+    "image": "images/placeholder.png",
+    "text": "This is a placeholder!",
+    "archetypes": []
+  },
+  {
     "slug": "gardevoir-gx-tslc-23",
     "name": "Gardevoir-GX",
     "image": "images/gardevoir-gx-tslc-23.png",
