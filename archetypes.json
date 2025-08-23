@@ -1,16 +1,22 @@
 [
   {
-    "name": "Gardevoir-GX Klawf",
     "slug": "gardevoir-gx-klawf",
-    "cards": ["gardevoir-gx-tslc-23.png", "klawf-tslc-24.png"],
-    "wins": 0,
-    "notes": "Strong fighting deck with built-in draw engine."
+    "name": "Gardevoir-GX / Klawf",
+    "main_cards": [
+      { "name": "Gardevoir-GX", "image": "images/gardevoir-gx-tslc-23.png" },
+      { "name": "Klawf", "image": "images/klawf-tslc-24.png" }
+    ],
+    "wins": 3,
+    "notes": "Deck based on Gardevoir-GX's ability to draw cards and put damage counters to power up klawf's attack. Includes Swalot for disabling opponent's key deck parts."
   },
   {
-    "name": "Breloom",
-    "slug": "breloom",
-    "cards": ["breloom-tslc-12.png", "dusk-mane-necrozma-tslc-30.png"],
-    "wins": 0,
-    "notes": "Deck with many consistency tools for getting turn skips with Breloom."
+    "slug": "breloom-necrozma",
+    "name": "Breloom / Dusk Mane Necrozma",
+    "main_cards": [
+      { "name": "Breloom", "image": "images/breloom-tslc-12.png" },
+      { "name": "Dusk Mane Necrozma", "image": "images/dusk-mane-necrozma-tslc-30.png" }
+    ],
+    "wins": 2,
+    "notes": "Deck with multiple consistency trainer cards and a large variety of grass pokémon to attack in various ways."
   }
 ]
