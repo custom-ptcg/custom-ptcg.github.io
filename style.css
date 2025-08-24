@@ -64,4 +64,10 @@ table th {
   display: block;
   margin: 1rem auto;
 }
+.energy-icon {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  margin: 0 2px;
+}
 
