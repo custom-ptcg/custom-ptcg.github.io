@@ -129,8 +129,6 @@
         ${ archetypeListHtml || '<li><em>None</em></li>' }
         </ul>
       `;
-      replaceIconsInContainer(container);
-
 
       // Right: image
       const imgPath = card.image.startsWith('../') || card.image.startsWith('/') ? card.image : ('../' + card.image.replace(/^\.{1,2}\//,''));
