@@ -1,27 +1,16 @@
-function replaceIconsInContainer(container) {
-  const energyMap = {
-    "[C]": "cards/images/energy-colorless.png",
-    "[R]": "cards/images/energy-fire.png",
-    "[W]": "cards/images/energy-water.png",
-    "[G]": "cards/images/energy-grass.png",
-    "[L]": "cards/images/energy-lightning.png",
-    "[P]": "cards/images/energy-psychic.png",
-    "[F]": "cards/images/energy-fighting.png",
-    "[D]": "cards/images/energy-darkness.png",
-    "[M]": "cards/images/energy-metal.png",
-    "[N]": "cards/images/energy-dragon.png",
-    "[Y]": "cards/images/energy-fairy.png"
-  };
-
-  container.querySelectorAll("*").forEach(el => {
-    if (el.children.length === 0 && el.textContent.match(/\[[A-Z]\]/g)) {
-      el.innerHTML = el.textContent.replace(/\[[A-Z]\]/g, match => {
-        return energyMap[match] ? `<img src="${energyMap[match]}" alt="${match}" class="energy-icon">` : match;
-      });
-    }
-  });
-}
-
+const energyMap = {
+  "[C]": "cards/images/energy-colorless.png",
+  "[R]": "cards/images/energy/energy-fire.png",
+  "[W]": "cards/images/energy/energy-water.png",
+  "[G]": "cards/images/energy/energy-grass.png",
+  "[L]": "cards/images/energy/energy-lightning.png",
+  "[P]": "cards/images/energy/energy-psychic.png",
+  "[F]": "cards/images/energy/energy-fighting.png",
+  "[D]": "cards/images/energy/energy-darkness.png",
+  "[M]": "cards/images/energy/energy-metal.png",
+  "[N]": "cards/images/energy/energy-dragon.png",
+  "[Y]": "cards/images/energy/energy-fairy.png"
+};
 
 function replaceEnergySymbols(text) {
   return text.replace(/\[[A-Z]\]/g, match => {
