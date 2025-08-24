@@ -123,10 +123,13 @@
       container.innerHTML = `
         <h2>${card.name}</h2>
         <p><strong>Card Text:</strong></p>
-        <p>${card.text || '<em>No card text provided.</em>'}</p>
+        <p class="card-text">${card.text || '<em>No card text provided.</em>'}</p>
         <h3>Archetypes</h3>
-        <ul class="archetype-list">${ archetypeListHtml || '<li><em>None</em></li>' }</ul>
+        <ul class="card-archetypes archetype-list">
+        ${ archetypeListHtml || '<li><em>None</em></li>' }
+        </ul>
       `;
+
 
       // Right: image
       const imgPath = card.image.startsWith('../') || card.image.startsWith('/') ? card.image : ('../' + card.image.replace(/^\.{1,2}\//,''));
